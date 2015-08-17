@@ -4,6 +4,7 @@ describe_recipe 'cassandra-cluster::default' do
 
     it { expect(chef_run).to include_recipe('java::default') }
     it { expect(chef_run).to include_recipe('sysctl::apply') }
+    it { expect(chef_run).to include_recipe('selinux::disabled') }
     it { expect(chef_run).to create_poise_service_user('cassandra').with(group: 'cassandra') }
     it do
       expect(chef_run).to create_cassandra_config('cassandra')

@@ -4,8 +4,7 @@
 #
 # Copyright 2015, Bloomberg Finance L.P.
 #
-
-service_name = node['cassandra-cluster']['service_name']
+include_recipe 'selinux::disabled'
 
 node.default['java']['jdk_version'] = '8'
 node.default['java']['accept_license_agreement'] = true
@@ -20,6 +19,7 @@ node.default['sysctl']['params']['vm']['max_map_count'] = 131_072
 node.default['sysctl']['params']['vm']['swappiness'] = 0
 include_recipe 'sysctl::apply'
 
+service_name = node['cassandra-cluster']['service_name']
 user_ulimit node['cassandra-cluster']['service_user'] do
   memory_limit 'unlimited'
   filehandle_limit 100_000
