@@ -17,6 +17,7 @@ end
 # @see http://docs.datastax.com/en//cassandra/2.0/cassandra/install/installRecommendSettings.html
 node.default['sysctl']['params']['vm']['max_map_count'] = 131_072
 node.default['sysctl']['params']['vm']['swappiness'] = 0
+node.default['sysctl']['params']['vm']['zone_reclaim_mode'] = 0
 include_recipe 'sysctl::apply'
 
 service_name = node['cassandra-cluster']['service_name']
