@@ -15,7 +15,7 @@ module CassandraClusterCookbook
       include PoiseService::ServiceMixin
 
       property(:version, kind_of: String, required: true)
-      property(:install_method, equal_to: %w{binary package}, default: 'binary')
+      property(:install_method, equal_to: %w{binary package}, default: 'package')
       property(:install_path, kind_of: String, default: '/srv')
 
       property(:user, kind_of: String, default: 'cassandra')
