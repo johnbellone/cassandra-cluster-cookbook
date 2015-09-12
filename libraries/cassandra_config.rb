@@ -51,7 +51,7 @@ module CassandraClusterCookbook
             recursive true
             owner new_resource.owner
             group new_resource.group
-            not_if { ::Dir.exist?(path) }
+            mode '0755'
           end
 
           file new_resource.path do

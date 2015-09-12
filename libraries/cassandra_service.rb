@@ -14,15 +14,17 @@ module CassandraClusterCookbook
       provides(:cassandra_service)
       include PoiseService::ServiceMixin
 
-      property(:version, kind_of: String, required: true)
-      property(:install_method, equal_to: %w{binary package}, default: 'package')
-      property(:install_path, kind_of: String, default: '/srv')
+      attribute(:version, kind_of: String, required: true)
+      attribute(:install_method, equal_to: %w{binary package}, default: 'package')
+      attribute(:install_path, kind_of: String, default: '/opt')
+      attribute(:remote_url, kind_of: String)
+      attribute(:remote_checksum, kind_of: String)
 
-      property(:user, kind_of: String, default: 'cassandra')
-      property(:group, kind_of: String, default: 'cassandra')
-      property(:config_file, kind_of: String, default: '/etc/cassandra/cassandra.yaml')
+      attribute(:user, kind_of: String, default: 'cassandra')
+      attribute(:group, kind_of: String, default: 'cassandra')
+      attribute(:config_file, kind_of: String, default: '/etc/cassandra/cassandra.yaml')
 
-      property(:environment, kind_of: Hash, default: { 'PATH' => '/usr/local/bin:/usr/bin:/bin' })
+      attribute(:environment, kind_of: Hash, default: { 'PATH' => '/usr/local/bin:/usr/bin:/bin' })
     end
   end
 
@@ -36,24 +38,38 @@ module CassandraClusterCookbook
       def action_enable
         notifying_block do
           package new_resource.package_name do
-            version new_resource.version unless new_resource.version.nil?
+            version new_resource.version
             action :upgrade
             only_if { new_resource.install_method == 'package' }
           end
-        end
-        super
-      end
 
-      def action_disable
-        notifying_block do
+          if new_resource.install_method == 'binary'
+            url = new_resource.remote_url % { version: new_resource.version  }
+            basename = ::File.basename(url)
+            archive = remote_file ::File.join(Chef::Config[:file_cache_path], basename) do
+              source url
+              checksum new_resource.remote_checksum
+            end
 
+            directory new_resource.install_path do
+              recursive true
+              owner new_resource.user
+              group new_resource.group
+              mode '0755'
+            end
+
+            libarchive_file archive.path do
+              owner new_resource.user
+              group new_resource.group
+              extract_to ::File.join(new_resource.install_path, "cassandra-#{new_resource.version}")
+            end
+          end
         end
         super
       end
 
       def service_options(service)
         service.command(new_resource.command)
-        service.directory(new_resource.current_path)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
         service.restart_on_update(true)
