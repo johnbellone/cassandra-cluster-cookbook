@@ -10,7 +10,7 @@ supports 'ubuntu', '>= 12.04'
 supports 'centos', '>= 6.6'
 supports 'redhat', '>= 6.6'
 
-depends 'java'
+depends 'java-service'
 depends 'libartifact', '~> 1.3'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'

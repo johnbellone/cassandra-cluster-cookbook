@@ -5,10 +5,7 @@
 # Copyright 2015, Bloomberg Finance L.P.
 #
 include_recipe 'selinux::disabled'
-
-node.default['java']['jdk_version'] = '8'
-node.default['java']['accept_license_agreement'] = true
-include_recipe 'java::default'
+include_recipe 'java-service::default'
 
 poise_service_user node['cassandra-cluster']['service_user'] do
   group node['cassandra-cluster']['service_group']

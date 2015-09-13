@@ -20,6 +20,7 @@ module CassandraClusterCookbook
       attribute(:remote_url, kind_of: String)
       attribute(:remote_checksum, kind_of: String)
 
+      attribute(:directory, kind_of: String, default: '/var/lib/cassandra')
       attribute(:user, kind_of: String, default: 'cassandra')
       attribute(:group, kind_of: String, default: 'cassandra')
       attribute(:config_file, kind_of: String, default: '/etc/cassandra/cassandra.yaml')
@@ -64,12 +65,20 @@ module CassandraClusterCookbook
               extract_to ::File.join(new_resource.install_path, "cassandra-#{new_resource.version}")
             end
           end
+
+          directory new_resource.directory do
+            recursive true
+            owner new_resource.user
+            group new_resource.group
+            mode '0755'
+          end
         end
         super
       end
 
       def service_options(service)
-        service.command(new_resource.command)
+        service.command("")
+        service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
         service.restart_on_update(true)
