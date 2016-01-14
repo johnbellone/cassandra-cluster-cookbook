@@ -2,7 +2,7 @@
 # Cookbook: cassandra-cluster
 # License: Apache 2.0
 #
-# Copyright 2015, Bloomberg Finance L.P.
+# Copyright 2015-2016, Bloomberg Finance L.P.
 #
 include_recipe 'selinux::disabled'
 include_recipe 'java-service::default'
@@ -30,7 +30,7 @@ cassandra_config service_name do |r|
   group node['cassandra-cluster']['service_group']
 
   node['cassandra-cluster']['config'].each_pair { |k, v| r.send(k, v) }
-  notifies :restart, "cassandra_service[#{name}]", :delayed
+  notifies :restart, "cassandra_service[#{service_name}]", :delayed
 end
 
 cassandra_service service_name do |r|
