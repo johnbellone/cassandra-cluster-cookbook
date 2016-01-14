@@ -2,7 +2,7 @@
 # Cookbook: cassandra-cluster
 # License: Apache 2.0
 #
-# Copyright 2015, Bloomberg Finance L.P.
+# Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise_service/service_mixin'
 
@@ -37,6 +37,7 @@ module CassandraClusterCookbook
       include PoiseService::ServiceMixin
 
       def action_enable
+        new_resource.notifies(:restart, new_resource, :delayed)
         notifying_block do
           package new_resource.package_name do
             version new_resource.version
