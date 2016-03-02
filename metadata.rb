@@ -5,15 +5,15 @@ license 'Apache 2.0'
 description 'Application cookbook which installs and configures a Cassandra cluster.'
 long_description 'Application cookbook which installs and configures a Cassandra cluster.'
 version '1.0.0'
-source_url 'https://github.com/bloomberg/collectd-cookbook' if defined?(source_url)
-issues_url 'https://github.com/bloomberg/collectd-cookbook/issues' if defined?(issues_url)
+source_url 'https://github.com/bloomberg/cassandra-cluster-cookbook' if defined?(source_url)
+issues_url 'https://github.com/bloomberg/cassandra-cluster-cookbook/issues' if defined?(issues_url)
 
 supports 'ubuntu', '>= 12.04'
 supports 'centos', '>= 6.6'
 supports 'redhat', '>= 6.6'
 
 depends 'java-service'
-depends 'libartifact', '~> 1.3'
+depends 'libarchive', '~> 0.6'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'
 depends 'selinux'
