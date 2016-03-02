@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-gem 'poise', '~> 2.2'
-gem 'poise-service', '~> 1.0'
+gem 'poise', '~> 2.6'
+gem 'poise-service', '~> 1.1'
 gem 'poise-boiler'
 
 group :lint do
@@ -8,20 +8,17 @@ group :lint do
   gem 'foodcritic'
 end
 
-group :unit do
+group :test, :integration, :unit do
+  gem 'berkshelf'
+  gem 'chef-dk'
   gem 'chefspec'
-end
-
-group :integration do
-  gem 'serverspec'
+  gem 'inspec'
+  gem 'kitchen-inspec'
+  gem 'test-kitchen'
 end
 
 group :development do
   gem 'awesome_print'
-  gem 'guard'
-  gem 'guard-kitchen'
-  gem 'guard-rspec'
-  gem 'guard-rubocop'
   gem 'rake'
   gem 'stove'
 end
