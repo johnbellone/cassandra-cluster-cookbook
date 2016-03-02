@@ -8,9 +8,13 @@ require 'poise'
 
 module CassandraClusterCookbook
   module Resource
-    # A Chef resource which manages Cassandra configuration.
+    # The `cassandra_config` resource for managing the Cassandra
+    # database configuration.
+    # @action create
+    # @action remove
+    # @provides cassandra_config
     # @see http://docs.datastax.com/en/cassandra/1.2/cassandra/configuration/configCassandra_yaml_r.html
-    # @since 1.0.0
+    # @since 1.0
     class CassandraConfig < Chef::Resource
       include Poise(fused: true)
       provides(:cassandra_config)
@@ -42,7 +46,9 @@ module CassandraClusterCookbook
       attribute(:saved_caches_directory, kind_of: String, default: '/var/lib/cassandra/saved_caches')
       attribute(:storage_port, kind_of: Integer, default: 7000)
 
-      def to_yaml
+      # @return [Hash]
+      # @api private
+      def content
       end
 
       action(:create) do
@@ -54,8 +60,8 @@ module CassandraClusterCookbook
             mode '0755'
           end
 
-          file new_resource.path do
-            content new_resource.to_yaml
+          rc_file new_resource.path do
+            content new_resource.content
             owner new_resource.owner
             group new_resource.group
             mode new_resource.mode
@@ -63,7 +69,7 @@ module CassandraClusterCookbook
         end
       end
 
-      action(:delete) do
+      action(:remove) do
         file new_resource.path do
           action :delete
         end
