@@ -97,10 +97,12 @@ module CassandraClusterCookbook
       # @api private
       def self.default_archive_checksum(node, resource)
         case resource.version
-        when '3.3' then ''
-        when '3.0.3' then ''
-        when '2.2.5' then ''
-        when '2.1.13' then ''
+        when '3.4' then '6fea829d5c9e3c34448d519fb9744e645de921d12702cf2bc10b36f17d738794'
+        when '3.3' then 'd98e685857d80f9eb93529f7b4f0f2c369ef40974866c8f8ad8edd3d6e0bf7e3'
+        when '3.0.4' then '620e2aad12f6609ec3cd5f8ddf7ec16f9ccd9c1ca2a8c4e9acf1f9fc49e24ad0'
+        when '3.0.3' then '555417f0d3b5c73fda7388a23becba28f2b87b1d6de082b7afde8d56b29ba4dd'
+        when '2.2.5' then '149d2448d0543fb1d5f87a73a7a5e0f589319908426c3a45b20c85563e164f1f'
+        when '2.1.13' then '102fffe21b1641696cbdaef0fb5a2fecf01f28da60c81a1dede06c2d8bdb6325'
         end
       end
     end
