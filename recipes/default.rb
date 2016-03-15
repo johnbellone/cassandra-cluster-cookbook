@@ -35,7 +35,7 @@ cassandra_config service_name do |r|
   notifies :restart, "cassandra_service[#{service_name}]", :delayed
 end
 
-cassandra_installation node['cassandra']['version'] do |r|
+install = cassandra_installation node['cassandra']['version'] do |r|
   if node['cassandra-cluster']['install']
     node['cassandra-cluster']['install'].each_pair { |k, v| r.send(k, v) }
   end
@@ -45,6 +45,7 @@ end
 cassandra_service service_name do |r|
   user node['cassandra-cluster']['service_user']
   group node['cassandra-cluster']['service_group']
+  command install.cassandra_command
 
   if node['cassandra-cluster']['service']
     node['cassandra-cluster']['service'].each_pair { |k, v| r.send(k, v) }

@@ -17,6 +17,7 @@ module CassandraClusterCookbook
     class CassandraInstallationBinary < Chef::Provider
       include Poise(inversion: :cassandra_installation)
       provides(:binary)
+      inversion_attribute('cassandra-cluster')
 
       # @param [Chef::Node] _node
       # @param [Resource::CassandraInstallation] _resource
@@ -75,6 +76,9 @@ module CassandraClusterCookbook
             action :delete
           end
         end
+      end
+
+      def cassandra_command
       end
 
       # @return [String]

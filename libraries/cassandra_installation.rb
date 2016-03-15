@@ -23,6 +23,10 @@ module CassandraClusterCookbook
       # The version of Cassandra to install.
       # @return [String]
       attribute(:version, kind_of: String, name_attribute: true)
+
+      def cassandra_command
+        @cassandra_command ||= provider_for_action(:cassandra_command).cassandra_command
+      end
     end
   end
 end

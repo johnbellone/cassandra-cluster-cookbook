@@ -19,6 +19,7 @@ module CassandraClusterCookbook
     class CassandraInstallationPackage < Chef::Provider
       include Poise(inversion: :cassandra_installation)
       provides(:package)
+      inversion_attribute('cassandra-cluster')
 
       # @param [Chef::Node] node
       # @param [Resource::CassandraInstallation] new_resource
@@ -50,6 +51,9 @@ module CassandraClusterCookbook
             action :uninstall
           end
         end
+      end
+
+      def cassandra_command
       end
     end
   end

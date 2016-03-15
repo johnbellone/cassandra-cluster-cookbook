@@ -41,6 +41,10 @@ module CassandraClusterCookbook
       # The environment for the Cassandra process.
       # @return [Hash]
       attribute(:environment, kind_of: Hash, default: { 'PATH' => '/usr/local/bin:/usr/bin:/bin' })
+      # @!attribute
+      # The command to start cassandra.
+      # @return [Hash]
+      attribute(:command, kind_of: String, required: true)
     end
   end
 
@@ -70,7 +74,7 @@ module CassandraClusterCookbook
       # @param [PoiseService::ServiceMixin] service
       # @api private
       def service_options(service)
-        service.command("")
+        service.command(new_resource.command)
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
