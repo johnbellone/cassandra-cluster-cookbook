@@ -19,10 +19,22 @@ module CassandraClusterCookbook
       include Poise(fused: true)
       provides(:cassandra_config)
 
+      # @!attribute path
+      # The Cassandra configuration file path.
+      # @return [String]
       attribute(:path, kind_of: String, name_attribute: true)
+      # @!attribute owner
+      # The Cassandra configuration file owner.
+      # @return [String]
       attribute(:owner, kind_of: String, default: 'cassandra')
+      # @!attribute group
+      # The Cassandra configuration file group.
+      # @return [String]
       attribute(:group, kind_of: String, default: 'cassandra')
-      attribute(:mode, kind_of: String, default: '0644')
+      # @!attribute mode
+      # The Cassandra configuration file mode.
+      # @return [String]
+      attribute(:mode, kind_of: String, default: '0440')
 
       attribute(:auto_bootstrap, equal_to: [true, false], default: true)
       attribute(:auto_snapshot, equal_to: [true, false], default: true)
@@ -45,10 +57,18 @@ module CassandraClusterCookbook
       attribute(:start_rpc, equal_to: [true, false], default: true)
       attribute(:saved_caches_directory, kind_of: String, default: '/var/lib/cassandra/saved_caches')
       attribute(:storage_port, kind_of: Integer, default: 7000)
+      attribute(:options, options_collector: true, default: {})
 
       # @return [Hash]
       # @api private
       def content
+        for_keeps = %i{auto_bootstrap auto_snapshot broadcast_address commitlog_directory
+          cluster_name data_file_directories disk_failure_policy internode_compression
+          incremental_backups listen_address native_transport_port native_transport_min_threads
+          native_transport_madx_threads rpc_address rpc_port snapshot_before_compaction ssl_storage_port
+          start_native_transport start_rpc saved_caches_directory storage_port}
+        for_keeps.merge(options).uniq!
+        to_hash.keep_if { |k, _| for_keeps.include?(k) }
       end
 
       action(:create) do
@@ -61,6 +81,7 @@ module CassandraClusterCookbook
           end
 
           rc_file new_resource.path do
+            type 'yaml'
             content new_resource.content
             owner new_resource.owner
             group new_resource.group

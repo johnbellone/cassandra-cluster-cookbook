@@ -21,29 +21,29 @@ module CassandraClusterCookbook
       provides(:cassandra_service)
       include PoiseService::ServiceMixin
 
-      # @!attribute
+      # @!attribute directory
       # The directory that Cassandra starts in.
       # @return [String]
       attribute(:directory, kind_of: String, default: '/var/lib/cassandra')
-      # @!attribute
+      # @!attribute user
       # The service user for Cassandra.
       # @return [String]
       attribute(:user, kind_of: String, default: 'cassandra')
-      # @!attribute
+      # @!attribute group
       # The service group for Cassandra.
       # @return [String]
       attribute(:group, kind_of: String, default: 'cassandra')
-      # @!attribute
+      # @!attribute config_file
       # The configuration file for Cassandra.
       # @return [String]
       attribute(:config_file, kind_of: String, default: '/etc/cassandra/cassandra.yaml')
-      # @!attribute
+      # @!attribute environment
       # The environment for the Cassandra process.
       # @return [Hash]
       attribute(:environment, kind_of: Hash, default: { 'PATH' => '/usr/local/bin:/usr/bin:/bin' })
-      # @!attribute
+      # @!attribute command
       # The command to start cassandra.
-      # @return [Hash]
+      # @return [String]
       attribute(:command, kind_of: String, required: true)
     end
   end
