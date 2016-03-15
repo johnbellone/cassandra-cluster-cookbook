@@ -13,7 +13,6 @@ supports 'centos', '>= 6.6'
 supports 'redhat', '>= 6.6'
 
 depends 'java-service'
-depends 'libarchive', '~> 0.6'
 depends 'poise', '~> 2.2'
 depends 'poise-service', '~> 1.0'
 depends 'selinux'
